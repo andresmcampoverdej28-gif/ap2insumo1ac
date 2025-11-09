@@ -1,16 +1,19 @@
-import React from "react";
-import { Text, View } from "react-native";
+import Login from "@/components/Login";
+import Register from "@/components/Register";
+import "@/global.css";
+import React, { useState } from 'react';
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Index() {
+  const [isLogin, setIsLogin] = useState(true);
+
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Text>Edit app/index.tsx to edit this screen.</Text>
-    </View>
+    <SafeAreaView className="flex-1">
+      {isLogin ? (
+        <Login setIsLogin={setIsLogin} />
+      ) : (
+        <Register setIsLogin={setIsLogin} />
+      )}
+    </SafeAreaView>
   );
 }

@@ -1,43 +1,25 @@
 import { z } from 'zod';
-import { PASSWORD_MESSAGES } from '../constants/error-messages';
 
-export const passwordSchema = z.object({
-  password: z
-    .string({
-      required_error: PASSWORD_MESSAGES.PASSWORD_REQUIRED,
-    })
-    .min(8, PASSWORD_MESSAGES.PASSWORD_MIN_LENGTH)
-    .max(100, PASSWORD_MESSAGES.PASSWORD_MAX_LENGTH)
-    .regex(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
-      PASSWORD_MESSAGES.PASSWORD_WEAK
-    )
-    .trim(),
-});
-
-// Schema solo para el campo password (sin objeto wrapper)
 export const passwordFieldSchema = z
-  .string({
-    required_error: PASSWORD_MESSAGES.PASSWORD_REQUIRED,
-  })
-  .min(8, PASSWORD_MESSAGES.PASSWORD_MIN_LENGTH)
-  .max(100, PASSWORD_MESSAGES.PASSWORD_MAX_LENGTH)
-  .regex(
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
-    PASSWORD_MESSAGES.PASSWORD_WEAK
-  )
-  .trim();
+  .string()
+  .min(8, 'La contraseña debe tener al menos 8 caracteres')
+  .max(100, 'La contraseña no puede tener más de 100 caracteres')
+  .regex(/[A-Z]/, 'Debe contener al menos una letra mayúscula')
+  .regex(/[a-z]/, 'Debe contener al menos una letra minúscula')
+  .regex(/[0-9]/, 'Debe contener al menos un número')
+  .regex(/[^A-Za-z0-9]/, 'Debe contener al menos un carácter especial');
+
+// Schema más simple si no quieres tantas validaciones
+export const passwordFieldSchemaSimple = z
+  .string()
+  .min(6, 'La contraseña debe tener al menos 6 caracteres')
+  .max(100, 'La contraseña no puede tener más de 100 caracteres');
 
 // Schema para confirmar contraseña
-export const confirmPasswordSchema = z.object({
-  password: z.string(),
+export const passwordConfirmSchema = z.object({
+  password: passwordFieldSchema,
   confirmPassword: z.string(),
 }).refine((data) => data.password === data.confirmPassword, {
-  message: PASSWORD_MESSAGES.PASSWORD_MISMATCH,
-  path: ['confirmPassword'],
+  message: "Las contraseñas no coinciden",
+  path: ["confirmPassword"],
 });
-
-// Tipos inferidos
-export type PasswordSchema = z.infer<typeof passwordSchema>;
-export type PasswordField = z.infer<typeof passwordFieldSchema>;
-export type ConfirmPasswordSchema = z.infer<typeof confirmPasswordSchema>;

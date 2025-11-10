@@ -74,7 +74,7 @@ export default function Login({ setIsLogin }: LoginProps) {
             validateOnChange={forceValidation}
             onValidationChange={(isValid) => setIsEmailValid(isValid)}
             className="bg-purple-700 border-2 border-yellow-400 text-white font-bold rounded-2xl"
-            placeholderTextColor="#9333EA"
+            placeholderTextColor="#EC4899"
           />
         </View>
 
@@ -93,7 +93,7 @@ export default function Login({ setIsLogin }: LoginProps) {
             onValidationChange={(isValid) => setIsPasswordValid(isValid)}
             showToggle={true}
             className="bg-purple-700 border-2 border-yellow-400 text-white font-bold rounded-2xl"
-            placeholderTextColor="#9333EA"
+            placeholderTextColor="#EC4899"
           />
         </View>
 

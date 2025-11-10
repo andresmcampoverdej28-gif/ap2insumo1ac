@@ -111,7 +111,7 @@ const PasswordInput = ({
         {showToggle && (
           <TouchableOpacity
             onPress={togglePasswordVisibility}
-            className="absolute right-3 top-3"
+            className="absolute right-3 top-12"
             activeOpacity={0.7}
           >
             <Ionicons
